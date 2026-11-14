@@ -92,19 +92,46 @@
                         <div class="card-toolbar">
                             <div class="toolbar-identity">
                                 <span class="plaque-title">figure_01.ascii</span>
-                                <span class="plaque-meta">76 &times; 32 &bull; 1:1 photogrammetry</span>
+                                <span class="plaque-meta">84 &times; 52 &bull; 1:1 Ground-truth photogrammetry</span>
                             </div>
 
                             <div class="toolbar-controls">
                                 <button class="mode-toggle-btn active" id="modeVoidBtn" title="Void Mode (Light on Dark)">Void</button>
                                 <button class="mode-toggle-btn" id="modeInkBtn" title="Ink Mode (Dark on Paper)">Ink</button>
+                                <button class="mode-toggle-btn" id="modeSplitBtn" title="Interactive Split Scanner">Split</button>
+                                <button class="mode-toggle-btn" id="modePhotoBtn" title="Studio Black &amp; White Portrait">B&amp;W Photo</button>
                                 <button class="copy-ascii-btn" id="copyAsciiBtn" title="Copy ASCII Art to Clipboard">Copy Text</button>
                             </div>
                         </div>
 
-                        <!-- Interactive ASCII Canvas Pre -->
+                        <!-- Interactive ASCII Canvas Stage with B&W Studio Photo Hover Reveal & Scanner -->
                         <div class="ascii-stage" id="asciiStage">
-                            <pre class="ascii-canvas" id="asciiCanvas" aria-label="ASCII portrait of Kaushik constructed with special characters and numbers"></pre>
+                            <div class="artwork-viewport" id="artworkViewport">
+                                <!-- Ground-Truth Studio Black & White Photograph Layer -->
+                                <div class="artwork-photo-layer" id="artworkPhotoLayer">
+                                    <img src="image/portrait_bw.png" alt="High-contrast black and white studio portrait of Kaushik" class="artwork-real-img" id="artworkRealImg" loading="eager">
+                                </div>
+                                <!-- Interactive ASCII Canvas Pre Layer -->
+                                <div class="artwork-ascii-layer" id="artworkAsciiLayer">
+                                    <pre class="ascii-canvas" id="asciiCanvas" aria-label="ASCII portrait of Kaushik constructed with special characters and numbers"></pre>
+                                </div>
+                                <!-- Interactive Split Scanner Divider (Tracks mouse across face) -->
+                                <div class="split-divider" id="splitDivider" aria-hidden="true">
+                                    <div class="split-line"></div>
+                                    <div class="split-badge">
+                                        <span class="split-tag">B&amp;W</span>
+                                        <span class="split-caret">&lrarr;</span>
+                                        <span class="split-tag">ASCII</span>
+                                    </div>
+                                </div>
+                                <!-- Creative Architectural HUD Status Badge -->
+                                <div class="artwork-hud-badge" id="artworkHudBadge" aria-hidden="true">
+                                    <span class="hud-dot"></span>
+                                    <span class="hud-text">STUDIO B&amp;W &bull; GROUND TRUTH</span>
+                                </div>
+                                <!-- Interactive Ambient Lens Glare -->
+                                <div class="artwork-lens-glare" id="artworkLensGlare" aria-hidden="true"></div>
+                            </div>
                         </div>
 
                         <div class="card-footer">
@@ -112,7 +139,7 @@
                                 <span class="legend-key">Charset:</span>
                                 <code class="legend-code">@ # 9 8 6 5 4 3 2 0 ? ! * + = ~ - : .</code>
                             </div>
-                            <span class="interaction-hint">Hover to disturb / click to cycle</span>
+                            <span class="interaction-hint">Hover &amp; move cursor to wipe scan &bull; Click to cycle</span>
                         </div>
                     </div>
                 </div>

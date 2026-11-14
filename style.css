@@ -234,8 +234,8 @@ button {
     padding: 0 var(--gutter);
     width: 100%;
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 4rem;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 3.5rem;
     align-items: center;
 }
 
@@ -353,7 +353,7 @@ button {
 
 .artwork-card {
     width: 100%;
-    max-width: 500px;
+    max-width: 620px;
     background: var(--color-surface-subtle);
     border: 1px solid var(--color-border);
     border-radius: 8px;
@@ -429,7 +429,7 @@ button {
 
 /* ASCII Canvas Stage */
 .ascii-stage {
-    padding: 1.5rem 1rem;
+    padding: 1.75rem 1.25rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -437,14 +437,215 @@ button {
     transition: background var(--duration-base) var(--ease-out);
     user-select: none;
     overflow: hidden;
+    position: relative;
+    cursor: crosshair;
+}
+
+/* Viewport holding both Real Image and ASCII Canvas */
+.artwork-viewport {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform 0.25s var(--ease-out), box-shadow 0.3s var(--ease-out);
+    will-change: transform;
+    cursor: ew-resize;
+}
+
+/* Studio Black & White Photo Layer with Interactive Split Clip */
+.artwork-photo-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+    clip-path: polygon(0 0, var(--split-x, 0%) 0, var(--split-x, 0%) 100%, 0 100%);
+    -webkit-clip-path: polygon(0 0, var(--split-x, 0%) 0, var(--split-x, 0%) 100%, 0 100%);
+    transition: clip-path 0.12s ease-out, -webkit-clip-path 0.12s ease-out;
+    will-change: clip-path;
+}
+
+/* Full B&W Photo Mode (Pinned) */
+.artwork-card.theme-photo .artwork-photo-layer {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%) !important;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%) !important;
+}
+
+/* Split Mode (Pinned 50%) */
+.artwork-card.theme-split .artwork-photo-layer {
+    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+    -webkit-clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+}
+
+/* Ground-Truth High-Contrast Studio B&W Photo */
+.artwork-real-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 6px;
+    filter: grayscale(100%) contrast(1.15) brightness(1.02);
+    display: block;
+}
+
+/* ASCII Canvas Layer */
+.artwork-ascii-layer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Interactive Split Divider Line */
+.split-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--split-x, 0%);
+    width: 1px;
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s var(--ease-out);
+    transform: translateX(-50%);
+}
+
+.split-line {
+    width: 1px;
+    height: 100%;
+    background: rgba(250, 250, 250, 0.75);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+.split-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 3px 8px;
+    background: rgba(9, 9, 11, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 9999px;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #fafafa;
+    white-space: nowrap;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.85);
+}
+
+.split-tag {
+    color: var(--color-text-muted);
+}
+
+.split-caret {
+    color: var(--color-text-primary);
+    font-size: 0.65rem;
+}
+
+/* Reveal Divider when hovering or in split mode */
+.ascii-stage:hover .split-divider,
+.artwork-viewport:hover .split-divider,
+.artwork-card.theme-split .split-divider {
+    opacity: 1;
+}
+
+.artwork-card.theme-split .split-divider {
+    left: 50% !important;
+    opacity: 1 !important;
+}
+
+.artwork-card.theme-photo .split-divider {
+    opacity: 0 !important;
+}
+
+/* Interactive Cursor Lens Glare (designskills) */
+.artwork-lens-glare {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-out);
+    background: radial-gradient(
+        circle 160px at var(--lens-x, 50%) var(--lens-y, 50%),
+        rgba(255, 255, 255, 0.14) 0%,
+        rgba(255, 255, 255, 0.04) 50%,
+        transparent 80%
+    );
+}
+
+.ascii-stage:hover .artwork-lens-glare,
+.artwork-viewport:hover .artwork-lens-glare {
+    opacity: 1;
+}
+
+/* Creative HUD Status Badge */
+.artwork-hud-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 6;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    background: rgba(9, 9, 11, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: #fafafa;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+    pointer-events: none;
+}
+
+.hud-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    display: inline-block;
+    animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.ascii-stage:hover .artwork-hud-badge,
+.artwork-viewport:hover .artwork-hud-badge,
+.artwork-card.theme-photo .artwork-hud-badge,
+.artwork-card.theme-split .artwork-hud-badge {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Void Mode (Default: Light text on Dark) */
-.ascii-card.theme-void .ascii-stage {
+.artwork-card.theme-void .ascii-stage {
     background: #000000;
 }
 
-.ascii-card.theme-void .ascii-canvas {
+.artwork-card.theme-void .ascii-canvas {
     color: #fafafa;
 }
 
@@ -457,16 +658,29 @@ button {
     color: #09090b;
 }
 
+/* Split Mode Stage */
+.artwork-card.theme-split .ascii-stage {
+    background: #000000;
+}
+
+/* Photo Mode Stage */
+.artwork-card.theme-photo .ascii-stage {
+    background: #000000;
+}
+
 .ascii-canvas {
+    position: relative;
+    z-index: 1;
     font-family: var(--font-mono);
-    /* Monospace grid font-size calibrated so 80 cols fit perfectly */
-    font-size: clamp(0.24rem, 0.46vw, 0.35rem);
+    /* Monospace grid font-size scaled up to match original photo scale & fill card */
+    font-size: clamp(0.32rem, 0.70vw, 0.58rem);
     line-height: 1.05;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.03em;
     font-weight: 600;
     white-space: pre;
     margin: 0;
-    transition: transform 0.2s var(--ease-out), color var(--duration-base) var(--ease-out);
+    transition: color var(--duration-base) var(--ease-out);
+    pointer-events: none;
 }
 
 .card-footer {
