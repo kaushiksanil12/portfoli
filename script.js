@@ -1,4 +1,4 @@
-﻿/* -----------------------------------------------------------------
+/* -----------------------------------------------------------------
    KAUSHIK ï¿½ PORTFOLIO RUNTIME ENGINE
    Features:
    - High-fidelity ASCII photogrammetry rendering (Head to Chest)
