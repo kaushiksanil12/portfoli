@@ -1,5 +1,5 @@
 ﻿/* -----------------------------------------------------------------
-   KAUSHIK � PORTFOLIO RUNTIME ENGINE
+   KAUSHIK ï¿½ PORTFOLIO RUNTIME ENGINE
    Features:
    - High-fidelity ASCII photogrammetry rendering (Head to Chest)
    - Void (Carbon) vs Ink (Paper) display toggle
@@ -120,21 +120,13 @@ const ASCII_PORTRAIT_INK = `
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // -- ASCII Artwork Manager with Studio B&W Photo Reveal & Scanner --
+    // -- Minimalist ASCII Artwork Manager with Studio B&W Photo Reveal & Scanner --
     const asciiCanvas = document.getElementById('asciiCanvas');
     const artworkCard = document.getElementById('artworkCard');
     const artworkViewport = document.getElementById('artworkViewport');
-    const artworkRealImg = document.getElementById('artworkRealImg');
-    const splitDivider = document.getElementById('splitDivider');
-    const modeVoidBtn = document.getElementById('modeVoidBtn');
-    const modeInkBtn = document.getElementById('modeInkBtn');
-    const modeSplitBtn = document.getElementById('modeSplitBtn');
-    const modePhotoBtn = document.getElementById('modePhotoBtn');
-    const copyAsciiBtn = document.getElementById('copyAsciiBtn');
     const asciiStage = document.getElementById('asciiStage');
-    const artworkHudBadge = document.getElementById('artworkHudBadge');
 
-    let currentMode = 'void'; // 'void' | 'ink' | 'split' | 'photo'
+    let currentMode = 'void'; // 'void' (dark) | 'ink' (light)
     let basePortrait = ASCII_PORTRAIT_VOID;
 
     function renderPortrait(text) {
@@ -145,110 +137,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function setMode(mode) {
         currentMode = mode;
-        artworkCard.classList.remove('theme-void', 'theme-ink', 'theme-split', 'theme-photo');
-        if (modeVoidBtn) modeVoidBtn.classList.remove('active');
-        if (modeInkBtn) modeInkBtn.classList.remove('active');
-        if (modeSplitBtn) modeSplitBtn.classList.remove('active');
-        if (modePhotoBtn) modePhotoBtn.classList.remove('active');
+        artworkCard.classList.remove('theme-void', 'theme-ink');
 
-        if (mode === 'void') {
-            basePortrait = ASCII_PORTRAIT_VOID;
-            artworkCard.classList.add('theme-void');
-            if (modeVoidBtn) modeVoidBtn.classList.add('active');
-            if (artworkViewport) artworkViewport.style.setProperty('--split-x', '0%');
-            renderPortrait(basePortrait);
-        } else if (mode === 'ink') {
+        if (mode === 'ink') {
             basePortrait = ASCII_PORTRAIT_INK;
             artworkCard.classList.add('theme-ink');
-            if (modeInkBtn) modeInkBtn.classList.add('active');
-            if (artworkViewport) artworkViewport.style.setProperty('--split-x', '0%');
-            renderPortrait(basePortrait);
-        } else if (mode === 'split') {
-            artworkCard.classList.add('theme-split');
-            if (modeSplitBtn) modeSplitBtn.classList.add('active');
-            if (artworkViewport) artworkViewport.style.setProperty('--split-x', '50%');
-            renderPortrait(basePortrait);
-        } else if (mode === 'photo') {
-            artworkCard.classList.add('theme-photo');
-            if (modePhotoBtn) modePhotoBtn.classList.add('active');
-            if (artworkViewport) artworkViewport.style.setProperty('--split-x', '100%');
+        } else {
+            basePortrait = ASCII_PORTRAIT_VOID;
+            artworkCard.classList.add('theme-void');
         }
+        renderPortrait(basePortrait);
     }
 
     // Initialize in Void mode
     setMode('void');
 
-    if (modeVoidBtn) {
-        modeVoidBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            setMode('void');
-        });
-    }
-    if (modeInkBtn) {
-        modeInkBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            setMode('ink');
-        });
-    }
-    if (modeSplitBtn) {
-        modeSplitBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            setMode('split');
-        });
-    }
-    if (modePhotoBtn) {
-        modePhotoBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            setMode('photo');
-        });
-    }
-
-    // Click card stage to cycle between modes (Void -> Ink -> Split -> Photo)
+    // Click card to toggle aesthetic between Void (dark) and Ink (light)
     if (asciiStage) {
-        asciiStage.addEventListener('click', (e) => {
-            if (e.target.closest('.card-toolbar') || e.target.closest('.card-footer')) return;
-            if (currentMode === 'void') setMode('ink');
-            else if (currentMode === 'ink') setMode('split');
-            else if (currentMode === 'split') setMode('photo');
-            else setMode('void');
+        asciiStage.addEventListener('click', () => {
+            setMode(currentMode === 'void' ? 'ink' : 'void');
+        });
+
+        // Accessible keyboard toggle (Enter or Space)
+        asciiStage.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setMode(currentMode === 'void' ? 'ink' : 'void');
+            }
         });
     }
 
-    // -- Interactive Hover Reveal & Dynamic Cursor Split Scanner (designskills) --
+    // -- Interactive Hover Reveal & Dynamic Cursor Split Scanner --
     const GLYPHS = ['@', '#', '9', '8', '6', '5', '4', '3', '2', '0', '?', '!', '*', '+', '=', '~'];
     let disturbanceTimer = null;
 
     const targetContainer = artworkViewport || asciiStage;
 
     if (asciiStage && targetContainer) {
-        asciiStage.addEventListener('mousemove', (e) => {
+        const handleScanPointer = (clientX, clientY) => {
             const rect = asciiStage.getBoundingClientRect();
-            const relX = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-            const relY = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+            const relX = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+            const relY = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
 
             // Parallax 3D tilt on the entire artwork viewport
             const tiltX = (relX - 0.5) * 8;
             const tiltY = (relY - 0.5) * 8;
             targetContainer.style.transform = `translate(${tiltX}px, ${tiltY}px)`;
 
-            // Track cursor coordinates for the radial lens glare spotlight
+            // Track cursor coordinates for the radial lens glare spotlight and split scanner
             if (artworkViewport) {
                 const vpRect = artworkViewport.getBoundingClientRect();
-                const lensX = e.clientX - vpRect.left;
-                const lensY = e.clientY - vpRect.top;
+                const lensX = clientX - vpRect.left;
+                const lensY = clientY - vpRect.top;
                 artworkViewport.style.setProperty('--lens-x', `${lensX}px`);
                 artworkViewport.style.setProperty('--lens-y', `${lensY}px`);
 
-                // In dynamic scan mode (void, ink, or split):
                 // Cursor X sweeps the split divider across the face in real time
-                if (currentMode !== 'photo') {
-                    const splitPercent = Math.round(relX * 100);
-                    artworkViewport.style.setProperty('--split-x', `${splitPercent}%`);
-                }
+                const splitPercent = Math.round(relX * 100);
+                artworkViewport.style.setProperty('--split-x', `${splitPercent}%`);
             }
 
             // Subtle localized character mutation when hovering in ASCII mode
-            if (currentMode !== 'photo' && !disturbanceTimer && asciiCanvas) {
+            if (!disturbanceTimer && asciiCanvas) {
                 disturbanceTimer = setTimeout(() => {
                     const lines = basePortrait.split('\n');
                     const targetLine = Math.floor(relY * lines.length);
@@ -262,46 +212,36 @@ document.addEventListener('DOMContentLoaded', () => {
                         renderPortrait(lines.join('\n'));
 
                         setTimeout(() => {
-                            if (currentMode !== 'photo') {
-                                renderPortrait(basePortrait);
-                            }
+                            renderPortrait(basePortrait);
                         }, 200);
                     }
                     disturbanceTimer = null;
                 }, 60);
             }
-        });
+        };
 
-        asciiStage.addEventListener('mouseleave', () => {
+        const resetScanPointer = () => {
             targetContainer.style.transform = 'translate(0, 0)';
             if (artworkViewport) {
-                if (currentMode === 'void' || currentMode === 'ink') {
-                    artworkViewport.style.setProperty('--split-x', '0%');
-                } else if (currentMode === 'split') {
-                    artworkViewport.style.setProperty('--split-x', '50%');
-                } else if (currentMode === 'photo') {
-                    artworkViewport.style.setProperty('--split-x', '100%');
-                }
+                artworkViewport.style.setProperty('--split-x', '0%');
             }
-            if (currentMode !== 'photo') {
-                renderPortrait(basePortrait);
-            }
-        });
-    }
+            renderPortrait(basePortrait);
+        };
 
-    // -- Copy ASCII to Clipboard --
-    if (copyAsciiBtn) {
-        copyAsciiBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(basePortrait).then(() => {
-                const originalText = copyAsciiBtn.textContent;
-                copyAsciiBtn.textContent = 'Copied!';
-                copyAsciiBtn.style.borderColor = '#ffffff';
-                setTimeout(() => {
-                    copyAsciiBtn.textContent = originalText;
-                    copyAsciiBtn.style.borderColor = '';
-                }, 2000);
-            });
+        asciiStage.addEventListener('mousemove', (e) => {
+            handleScanPointer(e.clientX, e.clientY);
         });
+
+        asciiStage.addEventListener('mouseleave', resetScanPointer);
+
+        // Touch support for mobile and touch devices
+        asciiStage.addEventListener('touchmove', (e) => {
+            if (e.touches && e.touches[0]) {
+                handleScanPointer(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: true });
+
+        asciiStage.addEventListener('touchend', resetScanPointer);
     }
 
     // -- Direct Email Copy Bar --
@@ -369,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Console colophon
     console.log(
-        '%c Kaushik %c Portfolio � Generative ASCII Architecture ',
+        '%c Kaushik %c Portfolio • Generative ASCII Architecture ',
         'background: #09090b; color: #ffffff; font-weight: bold; padding: 4px 8px; border: 1px solid #27272a;',
         'background: #18181b; color: #a1a1aa; padding: 4px 8px;'
     );

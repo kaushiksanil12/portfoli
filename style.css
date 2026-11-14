@@ -222,7 +222,7 @@ button {
     margin-top: var(--header-height);
     display: flex;
     align-items: center;
-    padding: 4rem 0 6rem;
+    padding: clamp(1.25rem, 3vh, 2.5rem) 0;
     border-bottom: 1px solid var(--color-border);
     position: relative;
     background: radial-gradient(circle at 72% 45%, rgba(255, 255, 255, 0.035) 0%, transparent 58%);
@@ -234,55 +234,53 @@ button {
     padding: 0 var(--gutter);
     width: 100%;
     display: grid;
-    grid-template-columns: 0.95fr 1.05fr;
-    gap: 3.5rem;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(1.5rem, 3vw, 3rem);
     align-items: center;
 }
 
 .hero-narrative {
     display: flex;
     flex-direction: column;
-    gap: 1.75rem;
+    gap: 1.5rem;
 }
 
-.narrative-meta {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
+.hero-label {
     font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     color: var(--color-text-muted);
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
+    font-weight: 500;
 }
 
 .hero-headline {
-    font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+    font-size: clamp(2.1rem, 3.2vw, 2.9rem);
     font-weight: 700;
-    line-height: 1.12;
-    letter-spacing: -0.03em;
+    line-height: 1.15;
+    letter-spacing: -0.035em;
     color: var(--color-text-primary);
 }
 
 .hero-lead {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     line-height: 1.65;
     color: var(--color-text-secondary);
-    max-width: 580px;
+    max-width: 520px;
 }
 
 .hero-actions {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
 }
 
 .action-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.85rem 1.75rem;
+    padding: 0.85rem 1.65rem;
     font-size: 0.9rem;
     font-weight: 500;
     border-radius: 4px;
@@ -313,132 +311,78 @@ button {
     transform: translateY(-2px);
 }
 
-.narrative-spec {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--color-border);
-    margin-top: 1rem;
-}
-
-.spec-col {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.spec-label {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.spec-val {
-    font-size: 0.88rem;
-    color: var(--color-text-primary);
-    font-weight: 500;
-}
-
 /* ═════════════════════════════════════════════════════════════════
    THE CENTERPIECE: ARCHITECTURAL ASCII ART CARD
    ═════════════════════════════════════════════════════════════════ */
 .hero-artwork {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    gap: 0.85rem;
     width: 100%;
 }
 
 .artwork-card {
-    width: 100%;
-    max-width: 620px;
-    background: var(--color-surface-subtle);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
+    position: relative;
+    background: #000000;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
     overflow: hidden;
-    box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.85);
     transition: border-color var(--duration-base) var(--ease-out),
-        box-shadow var(--duration-base) var(--ease-out);
+        box-shadow var(--duration-base) var(--ease-out),
+        background var(--duration-base) var(--ease-out);
 }
 
 .artwork-card:hover {
-    border-color: var(--color-border-bright);
-    box-shadow: 0 32px 64px -16px rgba(0, 0, 0, 0.85);
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 32px 70px -16px rgba(0, 0, 0, 0.95);
 }
 
-.card-toolbar {
-    display: flex;
+.artwork-caption {
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 1rem;
-    background: var(--color-void);
-    border-bottom: 1px solid var(--color-border);
-}
-
-.toolbar-identity {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-}
-
-.plaque-title {
+    gap: 0.5rem;
     font-family: var(--font-mono);
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-}
-
-.plaque-meta {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: 0.72rem;
     color: var(--color-text-muted);
+    letter-spacing: 0.04em;
+    user-select: none;
+    opacity: 0.75;
+    transition: opacity var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
 }
 
-.toolbar-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-}
-
-.mode-toggle-btn,
-.copy-ascii-btn {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    padding: 0.25rem 0.6rem;
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
-    background: var(--color-surface);
+.hero-artwork:hover .artwork-caption {
+    opacity: 1;
     color: var(--color-text-secondary);
-    transition: all var(--duration-fast) var(--ease-out);
 }
 
-.mode-toggle-btn:hover,
-.copy-ascii-btn:hover {
-    color: var(--color-text-primary);
-    border-color: var(--color-border-bright);
+.caption-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--color-text-muted);
+    transition: background-color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
 }
 
-.mode-toggle-btn.active {
-    background: var(--color-text-primary);
-    color: var(--color-void);
-    border-color: var(--color-text-primary);
-    font-weight: 600;
+.hero-artwork:hover .caption-dot {
+    background-color: #ffffff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
 }
 
 /* ASCII Canvas Stage */
 .ascii-stage {
-    padding: 1.75rem 1.25rem;
+    padding: 1.25rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--color-void);
+    background: #000000;
     transition: background var(--duration-base) var(--ease-out);
     user-select: none;
     overflow: hidden;
     position: relative;
-    cursor: crosshair;
+    cursor: ew-resize;
 }
 
 /* Viewport holding both Real Image and ASCII Canvas */
@@ -467,18 +411,6 @@ button {
     -webkit-clip-path: polygon(0 0, var(--split-x, 0%) 0, var(--split-x, 0%) 100%, 0 100%);
     transition: clip-path 0.12s ease-out, -webkit-clip-path 0.12s ease-out;
     will-change: clip-path;
-}
-
-/* Full B&W Photo Mode (Pinned) */
-.artwork-card.theme-photo .artwork-photo-layer {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%) !important;
-    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%) !important;
-}
-
-/* Split Mode (Pinned 50%) */
-.artwork-card.theme-split .artwork-photo-layer {
-    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
-    -webkit-clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
 }
 
 /* Ground-Truth High-Contrast Studio B&W Photo */
@@ -518,56 +450,14 @@ button {
 .split-line {
     width: 1px;
     height: 100%;
-    background: rgba(250, 250, 250, 0.75);
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 2px #ffffff;
 }
 
-.split-badge {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 3px 8px;
-    background: rgba(9, 9, 11, 0.94);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 9999px;
-    font-family: var(--font-mono);
-    font-size: 0.55rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    color: #fafafa;
-    white-space: nowrap;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.85);
-}
-
-.split-tag {
-    color: var(--color-text-muted);
-}
-
-.split-caret {
-    color: var(--color-text-primary);
-    font-size: 0.65rem;
-}
-
-/* Reveal Divider when hovering or in split mode */
+/* Reveal Divider when hovering */
 .ascii-stage:hover .split-divider,
-.artwork-viewport:hover .split-divider,
-.artwork-card.theme-split .split-divider {
+.artwork-viewport:hover .split-divider {
     opacity: 1;
-}
-
-.artwork-card.theme-split .split-divider {
-    left: 50% !important;
-    opacity: 1 !important;
-}
-
-.artwork-card.theme-photo .split-divider {
-    opacity: 0 !important;
 }
 
 /* Interactive Cursor Lens Glare (designskills) */
@@ -580,8 +470,8 @@ button {
     transition: opacity 0.3s var(--ease-out);
     background: radial-gradient(
         circle 160px at var(--lens-x, 50%) var(--lens-y, 50%),
-        rgba(255, 255, 255, 0.14) 0%,
-        rgba(255, 255, 255, 0.04) 50%,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.03) 50%,
         transparent 80%
     );
 }
@@ -589,55 +479,6 @@ button {
 .ascii-stage:hover .artwork-lens-glare,
 .artwork-viewport:hover .artwork-lens-glare {
     opacity: 1;
-}
-
-/* Creative HUD Status Badge */
-.artwork-hud-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 6;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    padding: 3px 8px;
-    background: rgba(9, 9, 11, 0.88);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    color: #fafafa;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    opacity: 0;
-    transform: translateY(-4px);
-    transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
-    pointer-events: none;
-}
-
-.hud-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #10b981;
-    box-shadow: 0 0 8px #10b981;
-    display: inline-block;
-    animation: pulseDot 2s infinite ease-in-out;
-}
-
-@keyframes pulseDot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.85); }
-}
-
-.ascii-stage:hover .artwork-hud-badge,
-.artwork-viewport:hover .artwork-hud-badge,
-.artwork-card.theme-photo .artwork-hud-badge,
-.artwork-card.theme-split .artwork-hud-badge {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 /* Void Mode (Default: Light text on Dark) */
@@ -650,6 +491,11 @@ button {
 }
 
 /* Ink Mode (Dark text on Light Paper) */
+.artwork-card.theme-ink {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
 .artwork-card.theme-ink .ascii-stage {
     background: #ffffff;
 }
@@ -658,56 +504,33 @@ button {
     color: #09090b;
 }
 
-/* Split Mode Stage */
-.artwork-card.theme-split .ascii-stage {
-    background: #000000;
+.artwork-card.theme-ink .split-line {
+    background: #09090b;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7), 0 0 2px #09090b;
 }
 
-/* Photo Mode Stage */
-.artwork-card.theme-photo .ascii-stage {
-    background: #000000;
+.artwork-card.theme-ink .artwork-lens-glare {
+    background: radial-gradient(
+        circle 160px at var(--lens-x, 50%) var(--lens-y, 50%),
+        rgba(0, 0, 0, 0.08) 0%,
+        rgba(0, 0, 0, 0.02) 50%,
+        transparent 80%
+    );
 }
 
 .ascii-canvas {
     position: relative;
     z-index: 1;
     font-family: var(--font-mono);
-    /* Monospace grid font-size scaled up to match original photo scale & fill card */
-    font-size: clamp(0.32rem, 0.70vw, 0.58rem);
+    /* High-definition, crisp typographic character rendering */
+    font-size: clamp(0.44rem, 0.52vw, 0.52rem);
     line-height: 1.05;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
     font-weight: 600;
     white-space: pre;
     margin: 0;
     transition: color var(--duration-base) var(--ease-out);
     pointer-events: none;
-}
-
-.card-footer {
-    padding: 0.65rem 1rem;
-    background: var(--color-void);
-    border-top: 1px solid var(--color-border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    color: var(--color-text-muted);
-}
-
-.footer-legend {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-}
-
-.legend-code {
-    font-size: 0.62rem;
-    color: var(--color-text-secondary);
-}
-
-.interaction-hint {
-    color: var(--color-text-muted);
 }
 
 /* ═════════════════════════════════════════════════════════════════
@@ -1050,9 +873,11 @@ button {
 
 .copy-feedback {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
-    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    color: #10b981;
+    font-weight: 500;
     min-height: 1.2rem;
+    transition: opacity var(--duration-fast) var(--ease-out);
 }
 
 .external-links {

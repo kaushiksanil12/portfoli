@@ -48,17 +48,14 @@
 
                 <!-- Left Column: Biography & Purpose -->
                 <div class="hero-narrative">
-                    <div class="narrative-meta">
-                        <span class="meta-tag">Portfolio &bull; 2026 Edition</span>
-                        <span class="meta-location">India</span>
-                    </div>
+                    <span class="hero-label">Kaushik &mdash; Software Engineer</span>
 
                     <h1 class="hero-headline">
-                        Software engineer building resilient web interfaces and thoughtful systems.
+                        Building resilient web interfaces and thoughtful systems.
                     </h1>
 
                     <p class="hero-lead">
-                        I am Kaushik. I focus on frontend precision, clean system architecture, and crafting digital products where performance and visual rigor hold equal weight.
+                        I focus on frontend precision, clean system architecture, and crafting digital products where performance and visual rigor hold equal weight. Based in India.
                     </p>
 
                     <div class="hero-actions">
@@ -69,43 +66,13 @@
                             Initiate conversation
                         </a>
                     </div>
-
-                    <div class="narrative-spec">
-                        <div class="spec-col">
-                            <span class="spec-label">Core Focus</span>
-                            <span class="spec-val">Web &amp; Distributed Systems</span>
-                        </div>
-                        <div class="spec-col">
-                            <span class="spec-label">Stack Preference</span>
-                            <span class="spec-val">TypeScript, React, Node.js</span>
-                        </div>
-                        <div class="spec-col">
-                            <span class="spec-label">Visual Centerpiece</span>
-                            <span class="spec-val">Algorithmic ASCII Photogrammetry</span>
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Right Column: Generative ASCII Artwork Plaque -->
+                <!-- Right Column: Minimalist Generative ASCII Artwork Plaque -->
                 <div class="hero-artwork">
                     <div class="artwork-card" id="artworkCard">
-                        <div class="card-toolbar">
-                            <div class="toolbar-identity">
-                                <span class="plaque-title">figure_01.ascii</span>
-                                <span class="plaque-meta">84 &times; 52 &bull; 1:1 Ground-truth photogrammetry</span>
-                            </div>
-
-                            <div class="toolbar-controls">
-                                <button class="mode-toggle-btn active" id="modeVoidBtn" title="Void Mode (Light on Dark)">Void</button>
-                                <button class="mode-toggle-btn" id="modeInkBtn" title="Ink Mode (Dark on Paper)">Ink</button>
-                                <button class="mode-toggle-btn" id="modeSplitBtn" title="Interactive Split Scanner">Split</button>
-                                <button class="mode-toggle-btn" id="modePhotoBtn" title="Studio Black &amp; White Portrait">B&amp;W Photo</button>
-                                <button class="copy-ascii-btn" id="copyAsciiBtn" title="Copy ASCII Art to Clipboard">Copy Text</button>
-                            </div>
-                        </div>
-
-                        <!-- Interactive ASCII Canvas Stage with B&W Studio Photo Hover Reveal & Scanner -->
-                        <div class="ascii-stage" id="asciiStage">
+                        <!-- Interactive ASCII Canvas Stage with B&W Studio Photo Reveal & Hairline Scanner -->
+                        <div class="ascii-stage" id="asciiStage" tabindex="0" role="button" aria-label="Interactive generative ASCII portrait of Kaushik. Move cursor to wipe reveal studio portrait, or click to invert between dark and paper mode." title="Hover to wipe reveal studio B&amp;W photo &bull; Click to invert aesthetic">
                             <div class="artwork-viewport" id="artworkViewport">
                                 <!-- Ground-Truth Studio Black & White Photograph Layer -->
                                 <div class="artwork-photo-layer" id="artworkPhotoLayer">
@@ -115,32 +82,18 @@
                                 <div class="artwork-ascii-layer" id="artworkAsciiLayer">
                                     <pre class="ascii-canvas" id="asciiCanvas" aria-label="ASCII portrait of Kaushik constructed with special characters and numbers"></pre>
                                 </div>
-                                <!-- Interactive Split Scanner Divider (Tracks mouse across face) -->
+                                <!-- Ultra-Clean Minimalist Hairline Split Scanner -->
                                 <div class="split-divider" id="splitDivider" aria-hidden="true">
                                     <div class="split-line"></div>
-                                    <div class="split-badge">
-                                        <span class="split-tag">B&amp;W</span>
-                                        <span class="split-caret">&lrarr;</span>
-                                        <span class="split-tag">ASCII</span>
-                                    </div>
                                 </div>
-                                <!-- Creative Architectural HUD Status Badge -->
-                                <div class="artwork-hud-badge" id="artworkHudBadge" aria-hidden="true">
-                                    <span class="hud-dot"></span>
-                                    <span class="hud-text">STUDIO B&amp;W &bull; GROUND TRUTH</span>
-                                </div>
-                                <!-- Interactive Ambient Lens Glare -->
+                                <!-- Subtle Cursor Lens Glare -->
                                 <div class="artwork-lens-glare" id="artworkLensGlare" aria-hidden="true"></div>
                             </div>
                         </div>
-
-                        <div class="card-footer">
-                            <div class="footer-legend">
-                                <span class="legend-key">Charset:</span>
-                                <code class="legend-code">@ # 9 8 6 5 4 3 2 0 ? ! * + = ~ - : .</code>
-                            </div>
-                            <span class="interaction-hint">Hover &amp; move cursor to wipe scan &bull; Click to cycle</span>
-                        </div>
+                    </div>
+                    <div class="artwork-caption" aria-hidden="true">
+                        <span class="caption-dot"></span>
+                        <span class="caption-text">Interactive Photogrammetry &mdash; Hover to wipe &bull; Click to invert</span>
                     </div>
                 </div>
 
